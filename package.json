@@ -1,0 +1,22 @@
+{
+  "name": "schoolhelp",
+  "version": "1.0.0",
+  "description": "comp sci isu/culm",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mero789/SchoolChat.git"
+  },
+  "author": "Ameer Hamoodi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mero789/SchoolChat/issues"
+  },
+  "homepage": "https://github.com/mero789/SchoolChat#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

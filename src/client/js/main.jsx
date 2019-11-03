@@ -1,55 +1,50 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-//import Question from './libs/questions.jsx'
+import {Question, idgetter} from './libs/questions.js'
+const client = require("./libs/ask.js");
 
-var reqUID = new XMLHttpRequest(),
-  reqPost = new XMLHttpRequest();
-
-class Welcome extends React.Component {
-  render() {
-    return React.createElement(
-      null,
-      "Hello ",
-      this.props.name
+(function getQuestions() {
+  if(window.location.href == "http://localhost:2000/") {
+    ReactDOM.render(
+      <Question />,
+      document.getElementById('questions')
     );
   }
+})();
+
+function goTo(location) {
+  window.location.href = "./" + location;
 }
 
-class Question extends React.Component {
-  render() {
-    return React.createElement(
-      "div",
-      null,
-      "Question made by: ",
-      this.props.madeBy,
-      "div",
-      null,
-      this.props.question,
-      "div",
-      null,
-      this.props.description
-    );
-  }
+//event listeners
+if(window.location.href == "http://localhost:2000/") {
+  console.log("Yes");
+  document.getElementsByClassName('ask')[0].addEventListener("click", () => {
+    goTo("ask.html");
+  });
+  fetch("http://localhost:2000/posts")
+    .then(results => {
+      return results.json();
+    }).then(data => {
+      let ids = idgetter(data);
+      for(let i = 0; i < ids.length;i ++) {
+        let index = parseInt(ids[i]);
+        console.log(index);
+        document.getElementsByClassName('questionHeader')[index].addEventListener("click", () => {
+          goTo("getpage.html?id=" + index);
+        });
+      }
+      });
+} else if(window.location.href == "http://localhost:2000/ask.html") {
+  console.log("Ask away");
+  document.getElementsByClassName('submit')[0].addEventListener("click", () => {
+    let desc = document.getElementsByTagName('textarea')[0].value,
+    q = document.getElementsByClassName('questionTitle')[0].value;
+
+    const sendOb = {
+      question: q,
+      desc: desc
+    };
+    client.sendQuestion(sendOb);
+  });
 }
-
-function init() {
-  reqUID.open('GET', "/send", true);
-  reqUID.responseType = "text";
-  reqUID.send();
-
-  reqPost.open('GET', "/posts", true);
-  reqPost.responseType = "text";
-  reqPost.send();
-
-  reqUID.onload = () => {
-    console.log("[CLIENT]: " + reqUID.response);
-  }
-  reqPost.onload = () => {
-    let d = JSON.parse(reqPost.response)
-    ReactDOM.render(React.createElement(Question, d), document.getElementById('questions'));
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  init();
-});

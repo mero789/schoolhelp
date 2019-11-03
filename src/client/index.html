@@ -11,7 +11,13 @@
     </div>
     <div class="sideNav">
       <div class="navItem activeNav">Home</div>
+      <div class="navItem" onclick="javascript: location.href = './ask.html'; this.classList.add('activeNav')">Ask question</div>
     </div>
-    <div id="questions"></div>
+    <section class="mid-top">
+      <div class="large header">
+        Top Questions
+      </div><button class="ask">Ask a question</button>
+    </section>
+    <div id="questions" class="questions"></div>
   </body>
 </html>

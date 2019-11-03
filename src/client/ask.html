@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="./css/master.css">
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <div class="nav">
+      <div class="glyph">CramFlow</div>
+    </div>
+    <div class="sideNav">
+      <div class="navItem" onclick="javascript: location.href = './'; this.classList.add('activeNav')">Home</div>
+      <div class="navItem activeNav" onclick="javascript: location.href = './ask.html'; this.classList.add('activeNav')">Ask question</div>
+    </div>
+    <section class="mid-top">
+      <div class="large header">
+        Ask a question
+      </div>
+    </section>
+    <div class="questionForm">
+      <div class="center"><input type="text" class="questionTitle" placeholder="Enter the question"></div>
+      <div class="center"><textarea rows="20" cols="80" placeholder="Enter the full question plus any links which may help state your question"></textarea>
+        <button class="submit" id="sub">Send</button>
+    </div>
+  </body>
+</html>

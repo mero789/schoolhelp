@@ -18,6 +18,7 @@ app.get("/", function(req, res) {
 });
 
 app.use(express.static(__dirname + "/client"));
+app.use(express.json());
 
 //db stuff
 
@@ -44,8 +45,20 @@ conn.query("SELECT * FROM posts", function(err, result, fields) {
   if(err) throw err;
 
   app.get("/posts", function(req, res) {
+    let distArr = [];
     for(i=0; i < result.length; i++) {
-      res.send(result[i]);
+      distArr.push(result[i]);
     }
+    res.json(distArr);
+  });
+});
+
+app.post("/question", function(req, res) {
+  let q = req.body.question,
+    d = req.body.desc;
+  conn.query("INSERT INTO posts(question, description, madeBy) VALUES(" + conn.escape(q) + ", " + conn.escape(d) + " , 'ameer hamoodi')", function(err, result) {
+    if (err) throw err;
+    console.log("1 record inserted");
+    res.sendFile(__dirname + "/client/index.html");
   });
 });

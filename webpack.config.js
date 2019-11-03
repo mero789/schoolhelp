@@ -11,13 +11,15 @@ module.exports = {
     {
       test: /\.(js|jsx)$/,
       exclude: /(node_modules|bower_components)/,
-      use: {
+      use: [
+      {
         loader: 'babel-loader',
         options: {
-          presets: ['@babel/preset-env']
+            presets: ['@babel/react']
           }
         }
-      }
+      ]
+    }
     ]
   },
     mode: "development",
@@ -26,6 +28,16 @@ module.exports = {
             hash: true,
             template: resolve(__dirname + "/src/client/index.html"),
             filename: resolve(__dirname + './devBuild/client/index.html')
+        }),
+        new HtmlWebpackPlugin({
+          hash: true,
+          template: resolve(__dirname + "/src/client/ask.html"),
+          filename: resolve(__dirname + "./devBuild/client/ask.html")
+        }),
+        new HtmlWebpackPlugin({
+          hash: true,
+          template: resolve(__dirname + "/src/client/getpage.html"),
+          filename: resolve(__dirname + "./devBuild/client/getpage.html")
         })
    ]
 }

@@ -35,7 +35,7 @@ function img() {
 
 //Server stuff
 function server() {
-  return gulp.src("./src/server.js")
+  return gulp.src("./src/*.js")
   .pipe(gulp.dest("./devBuild/"))
 }
 

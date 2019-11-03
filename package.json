@@ -18,7 +18,9 @@
   "homepage": "https://github.com/mero789/SchoolChat#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "react": "^16.11.0"
+    "mysql": "^2.17.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "@babel/core": "^7.6.4",

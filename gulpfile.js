@@ -15,8 +15,7 @@ function pip() {
     .pipe(gulp.dest("./devBuild/client/"))
 }
 function watchJs() {
-  gulp.watch("./src/client/js/*.js", wp)
-  gulp.watch("./src/client/js/*.jsx", wp)
+  gulp.watch("./src/client/js/**", wp);
 }
 
 function devCss() {

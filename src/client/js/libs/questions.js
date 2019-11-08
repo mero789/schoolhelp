@@ -15,15 +15,26 @@ export class Question extends React.Component {
       .then(results => {
         return results.json();
       }).then(data => {
-
-        let questions = data.map((sec) => {
+        function getQ() {
+          for(let i = 0; i < data.length; i++) {
+          let numA = data[i].answer == undefined ? 0 : 1;
           return (
-            <div className="questionHeader">
-              Q: {sec.question}
-              <hr></hr>
+            <div className="question">
+              <div className="questionHeader">
+                <h4 className="title">{data[i].question}</h4>
+              </div>
+                <div className="square votes">
+                <span>{data[i].votes}</span>
+                <div>votes</div>
+                </div>
+                <div className="square not answers"><span> {numA}</span>
+                <div>answer</div>
+                </div>
             </div>
-          )
-        });
+          );
+          }
+        }
+        let questions = getQ();
         this.setState({questions: questions});
       });
   }
@@ -32,8 +43,9 @@ export class Question extends React.Component {
       return (
         this.state.questions
       );
+      console.log("[RENDERER]: finished");
     } catch(e) {
-      console.log("[CLIENT]: [ERROR] : " + e)
+      console.log("[RENDERER][ERROR] : " + e)
     }
   }
 }
@@ -41,6 +53,7 @@ export class Question extends React.Component {
 export function idgetter(data) {
   let ide = [];
   for(let i=0; i < data.length; i++) {
+    console.log("[GETTER]: " + data[i].id)
     ide.push(data[i].id);
   }
   return ide;

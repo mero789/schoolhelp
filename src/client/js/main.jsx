@@ -22,19 +22,19 @@ if(window.location.href == "http://localhost:2000/") {
   document.getElementsByClassName('ask')[0].addEventListener("click", () => {
     goTo("ask.html");
   });
-  fetch("http://localhost:2000/posts")
-    .then(results => {
-      return results.json();
-    }).then(data => {
-      let ids = idgetter(data);
-      for(let i = 0; i < ids.length;i ++) {
-        let index = parseInt(ids[i]);
-        console.log(index);
-        document.getElementsByClassName('questionHeader')[index].addEventListener("click", () => {
-          goTo("getpage.html?id=" + index);
-        });
-      }
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch("http://localhost:2000/posts")
+      .then(results => {
+        return results.json();
+      }).then(data => {
+        let ids = idgetter(data);
+        for(let i = 0; i < ids.length;i ++) {
+          document.getElementsByClassName('question')[i].addEventListener("click", () => {
+            goTo("getpage.html?id=" + ids[i]);
+          });
+        }
       });
+  });
 } else if(window.location.href == "http://localhost:2000/ask.html") {
   console.log("Ask away");
   document.getElementsByClassName('submit')[0].addEventListener("click", () => {

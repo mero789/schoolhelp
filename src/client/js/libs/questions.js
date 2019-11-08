@@ -11,17 +11,19 @@ export class Question extends React.Component {
     };
   }
   componentDidMount() {
-    fetch("http://localhost:2000/posts")
+    fetch("/api/posts")
       .then(results => {
         return results.json();
       }).then(data => {
-        function getQ() {
-          for(let i = 0; i < data.length; i++) {
+        let len = data.length,
+        dis = [],
+        getQ = () => {
+        for(let i = 0; i < len; i++) {
           let numA = data[i].answer == undefined ? 0 : 1;
-          return (
+          dis.push((
             <div className="question">
               <div className="questionHeader">
-                <h4 className="title">{data[i].question}</h4>
+                <h4 className="title">{data[i].question}</h4><br></br>
               </div>
                 <div className="square votes">
                 <span>{data[i].votes}</span>
@@ -31,12 +33,13 @@ export class Question extends React.Component {
                 <div>answer</div>
                 </div>
             </div>
-          );
-          }
+          ));
         }
-        let questions = getQ();
-        this.setState({questions: questions});
-      });
+        return dis;
+      }
+      let questions = getQ();
+      this.setState({questions: questions});
+    });
   }
   render() {
     try {

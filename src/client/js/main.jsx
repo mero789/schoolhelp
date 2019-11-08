@@ -20,22 +20,22 @@ function goTo(location) {
 if(window.location.href == "http://localhost:2000/") {
   console.log("Yes");
   document.getElementsByClassName('ask')[0].addEventListener("click", () => {
-    goTo("ask.html");
+    goTo("ask");
   });
   document.addEventListener("DOMContentLoaded", () => {
-    fetch("http://localhost:2000/posts")
+    fetch("http://localhost:2000/api/posts")
       .then(results => {
         return results.json();
       }).then(data => {
         let ids = idgetter(data);
         for(let i = 0; i < ids.length;i ++) {
           document.getElementsByClassName('question')[i].addEventListener("click", () => {
-            goTo("getpage.html?id=" + ids[i]);
+            goTo("getpage?id=" + ids[i]);
           });
         }
       });
   });
-} else if(window.location.href == "http://localhost:2000/ask.html") {
+} else if(window.location.href == "http://localhost:2000/ask") {
   console.log("Ask away");
   document.getElementsByClassName('submit')[0].addEventListener("click", () => {
     let desc = document.getElementsByTagName('textarea')[0].value,

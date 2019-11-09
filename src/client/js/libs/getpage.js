@@ -2,30 +2,44 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-class Page extends React.Component {
+export class Page extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: []
+      page: null
     };
+  }
     componentDidMount() {
-      let id = window.location.href.split("?id= ")[1];
-      console.log("[COMPONENT]: id of page = " + id);
-      fetch("/api/page?id=" + id)
-        .then(results => {
-          return results.json()
-        }).then(data => {
-          let title = data.title,
-            content = data.description,
-            votes = data.votes,
-            owner = data.madeBy,
-            answers = data.answers,
-            accepted = data.accAnswer;
+      let request = new XMLHttpRequest(),
+      url = "/api/page",
+      id = { id: window.location.href.split("?id=")[1] };
+      request.open("POST", url);
+      request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+      request.send(JSON.stringify(id));
+      let page = null;
 
-            const page = (
-              <div className="questionView">
+      request.onload = () => {
+        let res = JSON.parse(request.response)[0],
+          pg = (
+            <div className="q-content">
+              <div className="q-page-title">
+                {res.question}
+                <div className="author"><span>Asked by:</span> {res.madeBy}</div>
+                <div className="sq right green">
+                  <span> {res.votes} </span>
+                  <div>votes</div>
+                </div>
               </div>
-            )
-        })
+              <div className="q-description">
+              {res.description}
+              </div>
+            </div>
+          );
+          console.log(res);
+        this.setState({page: pg});
+      };
+    }
+    render() {
+      return (this.state.page);
     }
 }

@@ -1,0 +1,61 @@
+@media screen and (max-width : 1025px) {
+  .windowc {
+    display: none;
+  }
+  .windows {
+    display: none;
+  }
+  .questionForm {
+    left: 50%;
+  }
+  .questions {
+    left: 30%;
+  }
+  .sideNavl {
+    width: 30%;
+  }
+  .header {
+    left: 25%;
+  }
+  .ask {
+    left: 90%;
+  }
+  .q-content {
+    left: 30%;
+  }
+  .sq {
+    left: 60%;
+  }
+}
+
+@media screen and (max-width : 600px) {
+  .windowc {
+    display: none;
+  }
+  .windows {
+    display: none;
+  }
+  .questionForm {
+    left: 30%;
+  }
+  .questions {
+    left: 0%;
+    width: 100%;
+  }
+  .sideNavl {
+    display: none;
+  }
+  .header {
+    left: 5%;
+  }
+  .ask {
+    left: 70%;
+    top: 5%;
+  }
+  .q-content {
+    left: 0%;
+  }
+  .sq {
+    left: 80%;
+  }
+}

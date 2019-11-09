@@ -42,11 +42,9 @@ conn.query("SELECT username FROM users", function (err, result, fields) {
       res.send(result[0].username);
     });
   });
-
-conn.query("SELECT * FROM posts", function(err, result, fields) {
-  if(err) throw err;
-
-  app.get("/api/posts", function(req, res) {
+app.get("/api/posts", function(req, res) {
+  conn.query("SELECT * FROM posts", function(err, result, fields) {
+    if(err) throw err;
     let distArr = [];
     for(i=0; i < result.length; i++) {
       distArr.push(result[i]);
@@ -54,6 +52,7 @@ conn.query("SELECT * FROM posts", function(err, result, fields) {
     res.json(distArr);
   });
 });
+
 
 app.post("/api/question", function(req, res) {
   let q = req.body.question,
@@ -68,3 +67,14 @@ app.post("/api/question", function(req, res) {
     });
   }
 });
+app.post("/api/page", function(req, res) {
+  let id = req.body.id;
+  console.log(id);
+  let distArr = [];
+  conn.query("SELECT * FROM posts WHERE id=" + conn.escape(id), function(err, result, fields) {
+    for(i=0; i < result.length; i++) {
+      distArr.push(result[i]);
+    }
+    res.json(distArr);
+  });
+})

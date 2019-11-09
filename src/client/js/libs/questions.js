@@ -19,7 +19,7 @@ export class Question extends React.Component {
         dis = [],
         getQ = () => {
         for(let i = 0; i < len; i++) {
-          let numA = data[i].answer == undefined ? 0 : 1;
+          let numA = data[i].answer == '' ? 0 : 1;
           dis.push((
             <div className="question">
               <div className="questionHeader">

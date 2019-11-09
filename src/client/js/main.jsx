@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
 import {Question, idgetter} from './libs/questions.js'
+import {Page} from './libs/getpage.js'
+
 const client = require("./libs/ask.js");
 
 (function getQuestions() {
@@ -47,4 +49,10 @@ if(window.location.href == "http://localhost:2000/") {
     };
     client.sendQuestion(sendOb);
   });
+} else if(window.location.href.indexOf("getpage") > -1) {
+  console.log("Viewing question");
+  ReactDOM.render(
+    <Page />,
+    document.getElementById('questionContent')
+  );
 }

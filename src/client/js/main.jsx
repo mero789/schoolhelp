@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
-import {Question, idgetter} from './libs/questions.js'
-import {Page} from './libs/getpage.js'
+import { Question, idgetter } from './libs/questions.js'
+import { Page } from './libs/getpage.js'
 
-const client = require("./libs/ask.js");
+const client = require("./libs/ask.js"),
+logs = require("./libs/signin.js");
 
 (function getQuestions() {
   if(window.location.href == "http://localhost:2000/") {
@@ -18,11 +19,31 @@ function goTo(location) {
   window.location.href = "./" + location;
 }
 
+function getCookie(cookie) {
+  var name = cookie + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ur = decodedCookie.split(';');
+  for(var i = 0; i <ur.length; i++) {
+    var c = ur[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
 //event listeners
 if(window.location.href == "http://localhost:2000/") {
   console.log("Yes");
   document.getElementsByClassName('ask')[0].addEventListener("click", () => {
-    goTo("ask");
+    if(getCookie("username") == "") {
+      goTo("login");
+    } else {
+      goTo("ask");
+    }
   });
   document.addEventListener("DOMContentLoaded", () => {
     fetch("http://localhost:2000/api/posts")
@@ -41,11 +62,13 @@ if(window.location.href == "http://localhost:2000/") {
   console.log("Ask away");
   document.getElementsByClassName('submit')[0].addEventListener("click", () => {
     let desc = document.getElementsByTagName('textarea')[0].value,
-    q = document.getElementsByClassName('questionTitle')[0].value;
-
+    q = document.getElementsByClassName('questionTitle')[0].value,
+    user = getCookie("username");
+    console.log(user);
     const sendOb = {
       question: q,
-      desc: desc
+      desc: desc,
+      user: user
     };
     client.sendQuestion(sendOb);
   });
@@ -56,6 +79,7 @@ if(window.location.href == "http://localhost:2000/") {
     document.getElementById('questionContent')
   );
 } else if(window.location.href == "http://localhost:2000/login") {
+
   /**
   *@author Ameer Hamoodi <ahamoodi178@gmail.com>
   *@license
@@ -80,8 +104,8 @@ if(window.location.href == "http://localhost:2000/") {
   */
 
 
-  const c = document.createElement('canvas'),
-  ctx = c.getContext("2d");
+  let c = document.createElement('canvas');
+  const ctx = c.getContext("2d");
   document.body.appendChild(c);
   class Circle1 {
     constructor() {
@@ -91,6 +115,7 @@ if(window.location.href == "http://localhost:2000/") {
       this.color = "#6432a8";
       this.spdX = (Math.random() * 0.5) - 0.5;
       this.spdY = (Math.random() - 0.5) * 0.5;
+      this.alpha = (Math.random() * 0.01) + 1;
     }
     update() {
       this.x += this.spdX;
@@ -102,9 +127,15 @@ if(window.location.href == "http://localhost:2000/") {
       if(this.y > c.height || this.y < 0) {
         this.spdY = -this.spdY;
       }
+      if(this.alpha > 0.5) {
+        this.alpha -= 0.001;
+      } else if(this.alpha < 0.5) {
+        this.alpha += 0.001;
+      }
     }
     render() {
       ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
       ctx.fill();
@@ -120,6 +151,7 @@ if(window.location.href == "http://localhost:2000/") {
       this.color = "#6432a8";
       this.spdX = (Math.random() * 0.5) - 0.5;
       this.spdY = (Math.random() - 0.5) * 0.5;
+      this.alpha = (Math.random() * 0.01) + 1;
     }
     update() {
       this.x += this.spdX;
@@ -131,9 +163,87 @@ if(window.location.href == "http://localhost:2000/") {
       if(this.y > c.height || this.y < 0) {
         this.spdY = -this.spdY;
       }
+      if(this.alpha > 0.5) {
+        this.alpha -= 0.001;
+      } else if(this.alpha < 0.5) {
+        this.alpha += 0.001;
+      }
     }
     render() {
       ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.closePath();
+    }
+  }
+
+  class Circle3 {
+    constructor() {
+      this.x = 100;
+      this.y = window.innerHeight;
+      this.r = Math.floor(Math.random() * 15) + 5;
+      this.color = "#6432a8";
+      this.spdX = (Math.random() * 0.5) - 0.5;
+      this.spdY = (Math.random() - 0.5) * 0.5;
+      this.alpha = (Math.random() * 0.01) + 1;
+    }
+    update() {
+      this.x += this.spdX;
+      this.y += this.spdY;
+
+      if(this.x > c.width || this.x < 0) {
+        this.spdX = -this.spdX;
+      }
+      if(this.y > c.height || this.y < 0) {
+        this.spdY = -this.spdY;
+      }
+      if(this.alpha > 0.5) {
+        this.alpha -= 0.001;
+      } else if(this.alpha < 0.5) {
+        this.alpha += 0.001;
+      }
+    }
+    render() {
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
+      ctx.fill();
+      ctx.closePath();
+    }
+  }
+
+  class Circle4 {
+    constructor() {
+      this.x = window.innerWidth;
+      this.y = 100;
+      this.r = Math.floor(Math.random() * 15) + 5;
+      this.color = "#6432a8";
+      this.spdX = (Math.random() * 0.5) - 0.5;
+      this.spdY = (Math.random() - 0.5) * 0.5;
+      this.alpha = (Math.random() * 0.01) + 1;
+    }
+    update() {
+      this.x += this.spdX;
+      this.y += this.spdY;
+
+      if(this.x > c.width || this.x < 0) {
+        this.spdX = -this.spdX;
+      }
+      if(this.y > c.height || this.y < 0) {
+        this.spdY = -this.spdY;
+      }
+      if(this.alpha > 0.5) {
+        this.alpha -= 0.001;
+      } else if(this.alpha < 0.5) {
+        this.alpha += 0.001;
+      }
+    }
+    render() {
+      ctx.fillStyle = this.color;
+      ctx.globalAlpha = this.alpha;
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
       ctx.fill();
@@ -148,6 +258,13 @@ if(window.location.href == "http://localhost:2000/") {
   for(let i = 0; i < 25; i++) {
     cA.push(new Circle2());
   }
+  for(let i = 0; i < 25; i++) {
+    cA.push(new Circle3());
+  }
+  for(let i = 0; i < 25; i++) {
+    cA.push(new Circle4());
+  }
+
   let dt, now, last;
 
   c.width = window.innerWidth;
@@ -174,4 +291,18 @@ if(window.location.href == "http://localhost:2000/") {
       }
     }
     anim();
+
+    document.getElementsByClassName('sign')[1].addEventListener("click", () => {
+      let email = document.getElementById('email').value,
+        psw = document.getElementById('password').value;
+      logs.sendLog(email, psw);
+    }), document.getElementsByClassName('sign')[2].addEventListener("click", () => {
+      let uid = document.getElementById('username').value,
+        email = document.getElementById('emaill').value,
+        psw = document.getElementById('pw').value;
+      logs.sendSign(email, uid, psw);
+    }), document.addEventListener("resize", () => {
+      c.width = window.innerWidth,
+      c.height = window.innerHeight;
+    })
 }

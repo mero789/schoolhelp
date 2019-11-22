@@ -18,6 +18,21 @@
           <input type="name" name="email" placeholder="Enter email" id="email" class="input">
         <label for="password">Password:</label>
           <input type="password" name="password" placeholder="Enter password" id="password" class="input">
+        <button class="sign" onclick="document.getElementsByClassName('loginForm')[0].style.display='none';
+        document.getElementsByClassName('signupForm')[0].style.display='block';
+        ">Signup</button>
+        <button class="sign">Login</button>
+      </div>
+    </div>
+    <div class="signupForm" style="display: none">
+      <h4 class="heading">Signup</h4>
+      <div class="formCont">
+        <label for="email">Email:</label>
+          <input type="name" name="email" placeholder="Enter email" id="emaill" class="input">
+        <label for="username">Username:</label>
+          <input type="name" name="username" placeholder="Enter username" id="username" class="input">
+        <label for="password">Password:</label>
+          <input type="password" name="password" placeholder="Enter password" id="pw" class="input">
         <button class="sign">Signup</button>
       </div>
     </div>

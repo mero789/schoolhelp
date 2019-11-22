@@ -1,3 +1,14 @@
+@media screen and (max-width : 1050px) {
+  .input {
+    min-width: 250px;
+    margin-left: 125px;
+  }
+  .loginForm {
+    height: 50vh;
+    width: 45%;
+  }
+}
+
 @media screen and (max-width : 1025px) {
   .windowc {
     display: none;
@@ -26,6 +37,9 @@
   .sq {
     left: 60%;
   }
+  .formCont {
+
+  }
 }
 
 @media screen and (max-width : 600px) {
@@ -46,10 +60,10 @@
     display: none;
   }
   .header {
-    left: 5%;
+    left: 0;
   }
   .ask {
-    left: 70%;
+    left: 75%;
     top: 5%;
   }
   .q-content {
@@ -57,5 +71,13 @@
   }
   .sq {
     left: 80%;
+  }
+  .input {
+    min-width: 200px;
+    margin-left: 100px;
+  }
+  .loginForm {
+    height: 40vh;
+    width: 55%;
   }
 }

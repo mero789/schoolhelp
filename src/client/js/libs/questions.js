@@ -26,7 +26,7 @@ export class Question extends React.Component {
                 <h4 className="title">{data[i].question}</h4><br></br>
               </div>
                 <div className="square votes">
-                <span>{data[i].votes}</span>
+                <span>{data[i].upvotes - data[i].downvotes}</span>
                 <div>votes</div>
                 </div>
                 <div className="square not answers"><span> {numA}</span>

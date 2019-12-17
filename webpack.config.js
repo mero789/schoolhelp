@@ -43,6 +43,11 @@ module.exports = {
           hash: true,
           template: resolve(__dirname + "/src/client/login.html"),
           filename: resolve(__dirname + "./devBuild/client/login.html")
+        }),
+        new HtmlWebpackPlugin({
+          hash: true,
+          template: resolve(__dirname + "/src/client/answer.html"),
+          filename: resolve(__dirname + "./devBuild/client/answer.html")
         })
    ]
 }

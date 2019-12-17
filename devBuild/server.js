@@ -71,8 +71,13 @@ app.post("/api/page", function(req, res) {
     for(i=0; i < result.length; i++) {
       distArr.push(result[i]);
     }
-    res.json(distArr);
   });
+  conn.query("SELECT * FROM answers WHERE id=" + conn.escape(id), function(err, result, fields) {
+    for(i=0; i < result.length; i++) {
+      distArr.push(result[i]);
+    }
+  });
+  console.log(distArr[0]);
 })
 
 
@@ -121,12 +126,29 @@ app.post("/api/vote", function(req, res) {
       console.log("Vote added to db")
     });
   } else if(type == 1) {
-    conn.query("UPDATE posts SET downvotes="+ conn.escape(dbob.downvotes) + 1 + "WHERE id=" + conn.escape(id),
-  function(err, result) {
-    console.log("Vote added to db")
+    let vn = dbob.downvotes + 1;
+    conn.query("UPDATE posts SET downvotes="+ vn + " WHERE id=" + conn.escape(parseInt(id.id)), function(err, result) {
+      console.log("Downvote added to db")
+      console.log(vn);
   });
-  }
-  });
+}
+});
+})
 
+app.post("/api/answer", function(req, res) {
+  let id = req.body.id,
+    a = req.body.atitle,
+    d = req.body.desc,
+    u = req.body.user;
 
+    if(req == undefined) {
+      res.send("Error: no content added!");
+    } else {
+      console.log("User: " + u);
+      conn.query("INSERT INTO answers(title, description, madeBy, id) VALUES(" + conn.escape(a) + ", " + conn.escape(d) + " , " + conn.escape(u) + " , " + conn.escape(id) + ")",
+      function(err, result) {
+        if (err) throw err;
+        console.log("1 record inserted");
+      });
+    }
 })

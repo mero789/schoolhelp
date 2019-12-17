@@ -78,6 +78,9 @@ if(window.location.href == "http://localhost:2000/") {
     <Page />,
     document.getElementById('questionContent')
   );
+  setTimeout(() => {
+    console.log(document.getElementsByClassName('ask')[0]);
+  }, 2000);
 } else if(window.location.href == "http://localhost:2000/login") {
 
   /**
@@ -305,4 +308,17 @@ if(window.location.href == "http://localhost:2000/") {
       c.width = window.innerWidth,
       c.height = window.innerHeight;
     })
+} else if(window.location.href.indexOf("answer") > -1) {
+  document.getElementById('sub').addEventListener("click", () => {
+    let desc = document.getElementsByTagName('textarea')[0].value,
+    q = document.getElementsByClassName('questionTitle')[0].value,
+    user = getCookie("username");
+    console.log(user);
+    const sendOb = {
+      atitle: q,
+      desc: desc,
+      user: user
+    };
+    client.sendAnswer(sendOb);
+  })
 }

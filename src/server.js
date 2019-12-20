@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const sql = require("mysql");
+const routes = require('routes.js');
+
 const conn = sql.createConnection({
   host: "localhost",
   user: "root",
@@ -71,13 +73,14 @@ app.post("/api/page", function(req, res) {
     for(i=0; i < result.length; i++) {
       distArr.push(result[i]);
     }
+    res.json(distArr);
+    console.log(distArr);
   });
-  conn.query("SELECT * FROM answers WHERE id=" + conn.escape(id), function(err, result, fields) {
+  /*conn.query("SELECT * FROM answers WHERE id=" + conn.escape(id), function(err, result, fields) {
     for(i=0; i < result.length; i++) {
       distArr.push(result[i]);
     }
-  });
-  console.log(distArr[0]);
+  });*/
 })
 
 

@@ -60,10 +60,10 @@ export class Page extends React.Component {
 
       request.onload = () => {
         console.log(this.state.voted);
-        let res = JSON.parse(request.response);
+        let res = JSON.parse(request.response)[0],
+          href = "./answer?id=" + id.id;
           console.log(res);
-          /*href = "./answer?id=" + id.id,
-          pg = (
+        let pg = (
             <div className="q-content">
               <div className="q-page-title">
                 {res.question}
@@ -91,7 +91,7 @@ export class Page extends React.Component {
               </div>
             </div>
           );
-          console.log(res.upvotes - res.downvotes);*/
+          console.log(res.upvotes - res.downvotes);
         this.setState({page: pg});
       };
     }

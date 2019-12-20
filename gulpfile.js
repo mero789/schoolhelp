@@ -1,6 +1,7 @@
 const gulp = require("gulp");
 const webpack = require("webpack-stream");
 const nodemon = require("nodemon");
+const exec = require('child_process').exec;
 
 function watchHtml() {
   gulp.watch("./src/client/*.html", wp);
@@ -46,5 +47,11 @@ function nm() {
   })
 }
 
+function nmsocket() {
+  exec("node ./devBuild/socketserver.js", (err, stdout, stderr) => {
+    console.log(err)
+  });
+}
 
-exports.default = gulp.parallel(server, wp, watchHtml, watchJs, devCss, watchCss, pip, nm, img);
+
+exports.default = gulp.parallel(server, wp, watchHtml, watchJs, devCss, watchCss, pip, nm, img, nmsocket);

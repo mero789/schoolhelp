@@ -1,6 +1,6 @@
-<mxfile host="www.draw.io" modified="2019-12-20T14:09:31.313Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36" etag="RGQs7uDgBmqJLAGpl_PU" version="12.4.3" type="github" pages="1">
+<mxfile host="www.draw.io" modified="2019-12-20T14:12:25.625Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36" etag="3gd1CKesDVZE_41Dx3l8" version="12.4.3" type="github" pages="1">
   <diagram id="rPdMcjDCzNlBcrvU7s_v" name="Page-1">
-    <mxGraphModel dx="868" dy="401" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="868" dy="450" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0"/>
         <mxCell id="1" parent="0"/>
@@ -111,6 +111,27 @@
         </mxCell>
         <mxCell id="w_fVC-uuKKgkB9rS1OOU-21" value="Main Client Arcitechture" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];;autosize=1;" vertex="1" parent="1">
           <mxGeometry x="390" y="559" width="140" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="w_fVC-uuKKgkB9rS1OOU-23" value="Index.html" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="910" width="750" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="w_fVC-uuKKgkB9rS1OOU-24" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="300" y="1010" as="sourcePoint"/>
+            <mxPoint x="300" y="940" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w_fVC-uuKKgkB9rS1OOU-25" value="Topic specific rooms" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="245" y="1010" width="120" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="w_fVC-uuKKgkB9rS1OOU-26" value="" style="endArrow=none;html=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="396.25" y="1010" as="sourcePoint"/>
+            <mxPoint x="396.25" y="940" as="targetPoint"/>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="w_fVC-uuKKgkB9rS1OOU-27" value="Special links for cramoverflow" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];;autosize=1;" vertex="1" parent="1">
+          <mxGeometry x="365" y="1010" width="170" height="20" as="geometry"/>
         </mxCell>
       </root>
     </mxGraphModel>

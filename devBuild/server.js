@@ -1,10 +1,10 @@
-const appIndex = require('./app')
-const socketServer = require('./socketserver')
+const express = require("express");
+const app = express();
+const server1 = require("./app.js");
+const server2 = require("./socketserver.js");
 
-appIndex.listen(2000, function () {
-    console.log("[SERVER]: begun...");
-});
+server1.listen(2000);
+console.log("[SERVER]: started");
 
-socketServer.listen(2020, function () {
-    console.log("[SOCKET-SERVER]: running...");
-});
+server2.listen(82);
+console.log("[SOCKET-SERVER]: started");

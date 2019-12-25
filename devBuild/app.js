@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-const routes = require('routes.js');
+const server = require("http").Server(app);
+const sql = require("mysql");
 
 const conn = sql.createConnection({
   host: "localhost",
@@ -11,7 +12,7 @@ const conn = sql.createConnection({
 
 app.use(express.static(__dirname + "/client", {
   extensions: ['html', 'htm']
-}), routes);
+}));
 
 app.use(express.json());
 
@@ -146,3 +147,4 @@ app.post("/api/answer", function(req, res) {
       });
     }
 })
+module.exports = server;

@@ -41,3 +41,34 @@ body {
   cursor: pointer;
   background-color: #e0e0e0;
 }
+
+.messages {
+  display: flex;
+  flex-direction: column-reverse;
+  position: fixed;
+  left: 15%;
+  width: 85%;
+  bottom: 10%;
+  height: 100%;
+}
+
+.message {
+  background-color: #f2f2f2;
+  border-top: 1px solid #dbdbdb;
+  border-left: 1px solid #dbdbdb;
+  width: 100%;
+  padding: 5px 5px;
+}
+
+.from {
+  position: relative;
+  left: 0.5%;
+  top: 2%;
+  color: #6e6e6e;
+  font-size: 1em;
+}
+
+.contents {
+  position: relative;
+  left: 2%;
+}

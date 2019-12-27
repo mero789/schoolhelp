@@ -1,4 +1,4 @@
-const socket = require("socket.io-client")();
+const socket = require("socket.io-client")('http://localhost:82');
 const controller = require("./controller.js");
 
 //model structure

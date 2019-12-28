@@ -811,7 +811,7 @@ eval("\n\nvar alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqr
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("module.exports = {\n  load: callback => {\n    document.addEventListener(\"DOMContentLoaded\", () => {\n      callback();\n    });\n  }\n};\n\n//# sourceURL=webpack:///./src/client/chat/js/MVC/controller.js?");
+eval("module.exports = {\n  load: callback => {\n    document.addEventListener(\"DOMContentLoaded\", () => {\n      callback();\n    });\n  },\n  addListener: (event, element, callback) => {\n    element.addEventListener(event, () => {\n      callback();\n    });\n  }\n};\n\n//# sourceURL=webpack:///./src/client/chat/js/MVC/controller.js?");
 
 /***/ }),
 
@@ -819,10 +819,23 @@ eval("module.exports = {\n  load: callback => {\n    document.addEventListener(\
 /*!*****************************************!*\
   !*** ./src/client/chat/js/MVC/model.js ***!
   \*****************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-eval("const socket = __webpack_require__(/*! socket.io-client */ \"./node_modules/socket.io-client/lib/index.js\")('http://localhost:82');\n\nconst controller = __webpack_require__(/*! ./controller.js */ \"./src/client/chat/js/MVC/controller.js\"); //model structure\n\n\nlet init = () => {\n  let name = prompt(\"Enter your username\");\n\n  if (name !== \"\" || typeof name !== \"undefined\") {\n    socket.emit(\"init\", name);\n  } else {\n    socket.emit(\"init\", false);\n  }\n};\n\nmodule.exports.init = init;\nmodule.exports.rooms = ['general', 'math', 'biology', 'chemistry', 'physics', 'history', 'english']; //controller parts\n\ncontroller.load(init);\n\n//# sourceURL=webpack:///./src/client/chat/js/MVC/model.js?");
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _view_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./view.js */ \"./src/client/chat/js/MVC/view.js\");\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! socket.io-client */ \"./node_modules/socket.io-client/lib/index.js\");\n/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_3__);\n//imports\n\n\n\n //requires\n\nconst socket = socket_io_client__WEBPACK_IMPORTED_MODULE_3___default()('http://localhost:82');\n\nconst controller = __webpack_require__(/*! ./controller.js */ \"./src/client/chat/js/MVC/controller.js\"); //model structure\n\n\nlet messageArray = [];\nlet currentChan = 'general';\n\nlet init = () => {\n  let name = prompt(\"Enter your username\");\n\n  if (name !== \"\" || typeof name !== \"undefined\") {\n    socket.emit(\"init\", name);\n  } else {\n    socket.emit(\"init\", false);\n  }\n};\n\n(() => {\n  socket.on(\"content\", data => {\n    if (data.type == 1) {\n      messageArray.push(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_view_js__WEBPACK_IMPORTED_MODULE_2__[\"Message\"], {\n        name: data.user,\n        data: data.message\n      }));\n      messageArray.reverse();\n      react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render(react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_view_js__WEBPACK_IMPORTED_MODULE_2__[\"ArrMessage\"], {\n        messages: messageArray\n      }), document.getElementsByClassName('messages')[0]);\n    }\n  });\n})();\n\nlet sendMessage = () => {\n  let data = document.getElementById('message').value;\n  socket.emit('message', {\n    message: data,\n    channel: currentChan.name\n  });\n  document.getElementById('message').value = '';\n};\n\nlet setActive = name => {\n  document.getElementById(name).classList.add(\"active\");\n  document.getElementById(currentChan).classList.remove(\"active\");\n  currentChan = name;\n  document.getElementsByClassName('glyph')[0].innerHTML = \"<span>#</span>\" + fullNames[name];\n};\n\nlet changeChannel = {\n  general: () => {\n    socket.emit(\"changeRoom\", \"general\");\n    setActive(\"general\");\n  },\n  eng: () => {\n    socket.emit(\"changeRoom\", \"eng\");\n    setActive(\"eng\");\n  },\n  math: () => {\n    console.log(\"Loading\");\n    socket.emit(\"changeRoom\", \"math\");\n    setActive(\"math\");\n  },\n  chem: () => {\n    socket.emit(\"changeRoom\", \"chem\");\n    setActive(\"chem\");\n  },\n  bio: () => {\n    socket.emit(\"changeRoom\", \"bio\");\n    setActive(\"bio\");\n  },\n  phys: () => {\n    socket.emit(\"changeRoom\", \"phys\");\n    setActive(\"phys\");\n  },\n  hist: () => {\n    socket.emit(\"changeRoom\", \"hist\");\n    setActive(\"hist\");\n  }\n};\nlet chanArray = [\"general\", \"math\", \"eng\", \"phys\", \"chem\", \"bio\", \"hist\"];\nlet fullNames = {\n  general: \"General\",\n  math: \"Math\",\n  eng: \"English\",\n  phys: \"Physics\",\n  chem: \"Chemistry\",\n  bio: \"Biology\",\n  hist: \"History\"\n}; //controller parts\n\ncontroller.load(init);\ncontroller.addListener(\"click\", document.getElementById('send'), sendMessage);\nchanArray.forEach(item => {\n  controller.addListener(\"click\", document.getElementById(item), changeChannel[item]);\n});\n\n//# sourceURL=webpack:///./src/client/chat/js/MVC/model.js?");
+
+/***/ }),
+
+/***/ "./src/client/chat/js/MVC/view.js":
+/*!****************************************!*\
+  !*** ./src/client/chat/js/MVC/view.js ***!
+  \****************************************/
+/*! exports provided: Message, ArrMessage */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Message\", function() { return Message; });\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"ArrMessage\", function() { return ArrMessage; });\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);\n\n\n\n\n\nclass User extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {\n  render() {\n    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"span\", {\n      className: \"from\"\n    }, this.props.name);\n  }\n\n}\n\nclass Contents extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {\n  render() {\n    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", {\n      className: \"contents\"\n    }, this.props.data);\n  }\n\n}\n\nclass Message extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {\n  render() {\n    return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(\"div\", {\n      className: \"message\"\n    }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(User, {\n      name: this.props.name\n    }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Contents, {\n      data: this.props.data\n    }));\n  }\n\n}\nclass ArrMessage extends react__WEBPACK_IMPORTED_MODULE_0___default.a.Component {\n  render() {\n    return this.props.messages;\n  }\n\n}\n\n//# sourceURL=webpack:///./src/client/chat/js/MVC/view.js?");
 
 /***/ }),
 
@@ -830,11 +843,10 @@ eval("const socket = __webpack_require__(/*! socket.io-client */ \"./node_module
 /*!*************************************!*\
   !*** ./src/client/chat/js/main.jsx ***!
   \*************************************/
-/*! no exports provided */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);\n//imports\n\n\n\nconst model = __webpack_require__(/*! ./MVC/model.js */ \"./src/client/chat/js/MVC/model.js\");\n\n//# sourceURL=webpack:///./src/client/chat/js/main.jsx?");
+eval("const model = __webpack_require__(/*! ./MVC/model.js */ \"./src/client/chat/js/MVC/model.js\");\n\n//# sourceURL=webpack:///./src/client/chat/js/main.jsx?");
 
 /***/ }),
 

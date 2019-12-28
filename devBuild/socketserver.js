@@ -18,23 +18,32 @@ class User {
     this.messages = [];
     this.name = username;
     this.socket = socket;
-    this.room = "/";
+    this.room = "general"
+  }
+}
+
+function getUserWithName(uid) {
+  for(let i = 0; i < USER_LIST.length; i ++) {
+    if(USER_LIST[i].name == uid) {
+      return USER_LIST[i]
+    }
+  }
+}
+
+function getUserWithSocket(sock) {
+  for(let i = 0; i < USER_LIST.length; i ++) {
+    if(USER_LIST[i].socket.id == sock) {
+      return USER_LIST[i]
+    }
   }
 }
 
 
-//namespace deffinitions
-const math = io.of("/math"),
-  biology = io.of("/bio"),
-  chemistry = io.of("/chem"),
-  english = io.of("/eng"),
-  physics = io.of("/phys"),
-  history = io.of("/hist"),
-  computerScience = io.of("compsci");
-
-
 io.on("connection", function(socket) {
   console.log("[SOCKET-SERVER]: connection");
+
+  socket.join("general");
+  socket.room = "general";
 
   socket.on("init", function(data) {
     if(!data) {
@@ -44,7 +53,29 @@ io.on("connection", function(socket) {
     }
   });
 
+  socket.on("message", function(data) {
+    let user = getUserWithSocket(socket.id);
+    message(user.name, data.message, socket.room);
+    console.log("[SOCKET-SERVER]: message recieved to room " + socket.room + " processing...");
+  });
 
+  socket.on("changeRoom", function(data) {
+    changeRooms(socket, data);
+    console.log("[SOCKET-SERVER]: recieved request to change room to: " + data);
+  });
 });
+
+
+function message(user, message, room) {
+  io.to(room).emit("content", {type: 1, message: message, user: user});
+  let us = getUserWithName(user);
+}
+
+function changeRooms(socket, room) {
+  socket.leave(socket.room);
+  socket.join(room);
+  console.log("[SOCKET-SERVER]: changed room to " + room);
+  socket.room = room;
+}
 
 module.exports = server;

@@ -3,5 +3,10 @@ module.exports = {
     document.addEventListener("DOMContentLoaded", () => {
       callback();
     });
+  },
+  addListener: (event, element, callback) => {
+    element.addEventListener(event, () => {
+      callback();
+    });
   }
 }

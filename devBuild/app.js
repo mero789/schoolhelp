@@ -146,5 +146,13 @@ app.post("/api/answer", function(req, res) {
         console.log("1 record inserted");
       });
     }
+});
+
+app.post("/api/giveAnswers", function(req, res) {
+  let id = req.body.id;
+
+  conn.query("SELECT * FROM answers WHERE id = " + conn.escape(id), function(err, results, fields) {
+    res.json(results);
+  })
 })
 module.exports = server;

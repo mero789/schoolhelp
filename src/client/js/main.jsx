@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import { Question, idgetter } from './libs/questions.js'
 import { Page } from './libs/getpage.js'
+import { Answer } from './libs/answer-view.js'
 
 const client = require("./libs/ask.js"),
 logs = require("./libs/signin.js");
@@ -77,6 +78,9 @@ if(window.location.href == "http://localhost:2000/") {
   ReactDOM.render(
     <Page />,
     document.getElementById('questionContent')
+  );
+  ReactDOM.render(
+    <Answer />, document.getElementById("answers")
   );
   setTimeout(() => {
     console.log(document.getElementsByClassName('ask')[0]);

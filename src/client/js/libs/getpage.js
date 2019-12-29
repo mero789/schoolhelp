@@ -96,6 +96,8 @@ export class Page extends React.Component {
       };
     }
     render() {
-      return (this.state.page);
+      return (
+        this.state.page
+      );
     }
 }

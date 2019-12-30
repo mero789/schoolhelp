@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom'
 import { Question, idgetter } from './libs/questions.js'
 import { Page } from './libs/getpage.js'
-import { Answer } from './libs/answer-view.js'
+import { Answer, ArrAnswer } from './libs/answer-view.js'
 
 const client = require("./libs/ask.js"),
 logs = require("./libs/signin.js");
@@ -79,12 +79,23 @@ if(window.location.href == "http://localhost:2000/") {
     <Page />,
     document.getElementById('questionContent')
   );
-  ReactDOM.render(
-    <Answer />, document.getElementById("answers")
-  );
-  setTimeout(() => {
-    console.log(document.getElementsByClassName('ask')[0]);
-  }, 2000);
+  let request = new XMLHttpRequest();
+  let url = "/api/giveAnswers",
+  id = { id: window.location.href.split("?id=")[1] },
+  obj = {id: id};
+  request.open("POST", url);
+  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.send(JSON.stringify(id));
+
+  request.onload = () => {
+    let res = JSON.parse(request.response);
+    let elementArray = [];
+    for(let i = 0; i < res.length; i++) {
+      elementArray.push(<Answer title={res[i].title} madeBy={res[i].madeBy} description={res[i].description} key={i}/>);
+    }
+    ReactDOM.render(<ArrAnswer answers={elementArray} />, document.getElementById('answers'));
+
+  }
 } else if(window.location.href == "http://localhost:2000/login") {
 
   /**

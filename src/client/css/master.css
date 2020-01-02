@@ -12,6 +12,16 @@ body {
   border-top: 5px #6432a8 solid;
   border-bottom: 1px solid #dbdbdb;
 }
+.contra {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 15%;
+  top: 10%;
+  display: flex;
+  flex-flow: column;
+  flex-direction: column;
+}
 .glyph {
   position: absolute;
   font-family: Arial;
@@ -215,11 +225,8 @@ body {
   height: 100%;
 }
 .q-content {
-  position: absolute;
-  left: 15%;
-  top: 10%;
-  height: 100%;
   width: 100%;
+  margin-bottom: 10%;
 }
 .q-page-title {
   font-size: 1.9rem;
@@ -365,6 +372,51 @@ footer {
   background-color: #d4d4d4;
 }
 
-#answer {
+.a-container {
+  width: 100%;
+  margin-bottom: 10%;
+}
+
+.a-header {
+  font-size: 1.9rem;
+  border-bottom: 1px solid #e4e6e8;
+  line-height: 1.35;
+}
+
+.a-author {
+  padding: 14px 0;
+  font-size: 1rem;
+}
+.a-author span {
+  color: #6a737c;
+}
+
+.a-content {
+  margin-left: 5%;
+  margin-top: 2%;
+}
+
+.q-footer {
   position: relative;
+  bottom: 0;
+}
+
+.sticky-button {
+  position: fixed;
+  left: 90%;
+  top: 85%;
+  z-index: 1;
+}
+.fos {
+  padding: 20px;
+  font-size: 4em;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+  border-radius: 50%;
+}
+
+.fos:hover {
+  opacity: 0.7;
 }

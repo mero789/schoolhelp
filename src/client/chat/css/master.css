@@ -70,7 +70,8 @@ body {
 
 .messages {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+  flex-flow: column-reverse;
   position: fixed;
   left: 15%;
   width: 85%;

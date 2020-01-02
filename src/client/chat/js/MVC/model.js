@@ -11,21 +11,69 @@ const controller = require("./controller.js");
 //model structure
 let messageArray = [];
 let currentChan = 'general';
+const generalParse = {
+  eneralgay: "general",
+
+}
+const letters = /^[A-Za-z0-9]+$/;
+
+function getCookie(cookie) {
+  var name = cookie + "=";
+  var decodedCookie = decodeURIComponent(document.cookie);
+  var ur = decodedCookie.split(';');
+  for(var i = 0; i <ur.length; i++) {
+    var c = ur[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+    }
+  }
+  return "";
+}
+
+/*let channelParser = () => {
+  switch (url) {
+    case 'eneralgay':
+      currentChan = generalParse(url)
+      break;
+    default:
+
+  }
+}*/
+
+let clearScreen = () => {
+  ReactDOM.unmountComponentAtNode(document.getElementsByClassName('messages')[0]);
+  messageArray.splice(0, messageArray.length);
+}
 
 let init = () => {
-  let name = prompt("Enter your username");
-  if(name !== "" || typeof name !== "undefined") {
-    socket.emit("init", name)
+  let name = getCookie("username");
+  console.log(name);
+  //url = window.location.href.split("#")[1];
+  if(name.match(letters)) {
+    socket.emit("init", name);
   } else {
-    socket.emit("init", false);
+    alert("You must login to use the chat... Redirecting in 5s");
+    setTimeout(window.location.href = "/", 5000);
   }
+  //currentChan = channelParser(url);
 }
 
 (() => {
-  socket.on("content", (data) => {
+  socket.on("init", (data) => {
+    for(let i = 0; i < data.length; i++) {
+      messageArray.unshift(<Message name={data[i].author} data={data[i].content} />);
+    }
+    if(messageArray[0] != undefined) {
+      ReactDOM.render(<ArrMessage messages={messageArray} />, document.getElementsByClassName("messages")[0]);
+    } else {
+      console.log("No init pack");
+    }
+  }), socket.on("content", (data) => {
     if(data.type == 1) {
-      messageArray.push(<Message name={data.user}  data={data.message} />);
-      messageArray.reverse();
+      messageArray.unshift(<Message name={data.user}  data={data.message} />);
       ReactDOM.render(<ArrMessage messages={messageArray} />, document.getElementsByClassName('messages')[0]);
     }
   })
@@ -49,31 +97,37 @@ let changeChannel = {
   general: () => {
     socket.emit("changeRoom", "general");
     setActive("general");
+    clearScreen();
   },
   eng: () => {
     socket.emit("changeRoom", "eng");
     setActive("eng");
+    clearScreen();
   },
   math: () => {
-    console.log("Loading");
     socket.emit("changeRoom", "math");
     setActive("math");
+    clearScreen();
   },
   chem: () => {
     socket.emit("changeRoom", "chem");
     setActive("chem");
+    clearScreen();
   },
   bio: () => {
     socket.emit("changeRoom", "bio");
     setActive("bio");
+    clearScreen();
   },
   phys: () => {
     socket.emit("changeRoom", "phys");
     setActive("phys");
+    clearScreen();
   },
   hist: () => {
     socket.emit("changeRoom", "hist");
     setActive("hist");
+    clearScreen();
   }
 }
 

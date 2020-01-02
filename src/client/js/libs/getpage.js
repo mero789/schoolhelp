@@ -56,6 +56,7 @@ export class Page extends React.Component {
       request.open("POST", url);
       request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
       request.send(JSON.stringify(id));
+      let reportHref = "./report?" + id.id;
       let page = null;
 
       request.onload = () => {
@@ -88,6 +89,11 @@ export class Page extends React.Component {
               </div>
               <div className="q-description">
               {res.description}
+              </div>
+              <div className="q-footer">
+                <div className="item">
+                <a href={reportHref}><i className="fas fa-flag"></i></a>
+                </div>
               </div>
             </div>
           );

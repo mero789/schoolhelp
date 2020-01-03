@@ -420,3 +420,43 @@ footer {
 .fos:hover {
   opacity: 0.7;
 }
+
+.profile-content {
+  position: absolute;
+  top: 15%;
+  text-align: center;
+  width: 100%;
+}
+
+.pfp img{
+  width: 15%;
+  height: 15%;
+  border: 5px solid #6432a8;
+  border-radius: 20px;
+  margin-top: 5%;
+}
+
+.usersname {
+  font-size: 4em;
+  cursor: pointer;
+}
+
+.desc {
+  margin-top: 5%;
+  background-color: #f2f2f2;
+  height: 25vh;
+  border-radius: 10px;
+  width: 50%;
+  position: relative;
+  left: 28%;
+  border: 5px solid #6432a8;
+  font-size: 1.3em;
+  cursor: pointer;
+}
+
+.board img{
+  width: 5%;
+  position: absolute;
+  left: 68%;
+  top: 5%;
+}

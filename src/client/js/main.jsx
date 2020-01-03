@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { Question, idgetter } from './libs/questions.js'
 import { Page } from './libs/getpage.js'
 import { Answer, ArrAnswer } from './libs/answer-view.js'
+import { Profile } from './libs/editprofile.js'
 
 const client = require("./libs/ask.js"),
 logs = require("./libs/signin.js");
@@ -34,6 +35,10 @@ function getCookie(cookie) {
     }
   }
   return "";
+}
+
+if(getCookie("username") !== "") {
+  document.getElementsByClassName('nav-profile')[0].innerHTML = "<a href='./editprofile'><i class='far fa-address-card'></i></a>"
 }
 
 //event listeners
@@ -336,4 +341,18 @@ if(window.location.href == "http://localhost:2000/") {
     };
     client.sendAnswer(sendOb);
   })
+} else if(window.location.href == "http://localhost:2000/editprofile") {
+  console.log("Editing profile...");
+  let uid = {id: getCookie("username")};
+  let request = new XMLHttpRequest();
+  let url = "/api/profileget";
+  request.open("POST", url);
+  request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  request.send(JSON.stringify(uid));
+  request.onload = () => {
+    let res = request.response;
+    let parsedSponse = JSON.parse(res);
+    ReactDOM.render(<Profile name={parsedSponse.username} source={parsedSponse.pfp} content={parsedSponse.descrip} board={parsedSponse.board}/>
+    , document.getElementsByClassName('profile-content')[0]);
+  }
 }

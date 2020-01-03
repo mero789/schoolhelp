@@ -2,6 +2,12 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const sql = require("mysql");
+const boards = [
+  "hwdsb",
+  "hwcdsb",
+  "ndsb",
+  "ncdsb"
+]
 
 const conn = sql.createConnection({
   host: "localhost",
@@ -27,6 +33,20 @@ conn.connect(function(err) {
     set = true;
   }
 });
+
+function initUser(username, email) {
+  let pfp = "profileplaceholder_" + (Math.floor(Math.random() * 7) + 1),
+    desc = "This user likes to keep a sense of mystery in the air ...",
+    boardsplit = email.split("@")[1],
+    board = boardsplit.split(".")[0];
+    pfp.replace("0", "");
+    let bigBoard = boards.indexOf(board) > -1 ? board : "not in trusted board";
+  conn.query("INSERT INTO profiles(username, pfp, descrip, board) VALUES("+ conn.escape(username) + ", "
+  + conn.escape(pfp) + "," + conn.escape(desc) + ", " + conn.escape(board) + ")", function(err, result) {
+    if (err) throw err;
+    console.log("1 record inserted");
+  });
+}
 
 app.get("/api/posts", function(req, res) {
   conn.query("SELECT * FROM posts ORDER BY id DESC", function(err, result, fields) {
@@ -68,11 +88,6 @@ app.post("/api/page", function(req, res) {
     res.json(distArr);
     console.log(distArr);
   });
-  /*conn.query("SELECT * FROM answers WHERE id=" + conn.escape(id), function(err, result, fields) {
-    for(i=0; i < result.length; i++) {
-      distArr.push(result[i]);
-    }
-  });*/
 })
 
 
@@ -104,6 +119,7 @@ app.post("/api/log", function(req, res) {
       if (err) throw err;
       console.log("1 record inserted");
       res.send(username);
+      initUser(username, email);
     });
   }
 });
@@ -153,6 +169,13 @@ app.post("/api/giveAnswers", function(req, res) {
 
   conn.query("SELECT * FROM answers WHERE id = " + conn.escape(id), function(err, results, fields) {
     res.json(results);
+  })
+})
+
+app.post("/api/profileget", function(req, res) {
+  let name = req.body.id;
+  conn.query("SELECT * FROM profiles WHERE username=" + conn.escape(name), function(err, results, fields) {
+    res.json(results[0]);
   })
 })
 module.exports = server;

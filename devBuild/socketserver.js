@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const server = require("http").Server(app);
+const server = require("./app.js");
 const io = require("socket.io")(server);
 
 app.get("/", function(req, res) {

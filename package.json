@@ -4,7 +4,7 @@
   "description": "comp sci isu/culm",
   "main": "server.js",
   "scripts": {
-    "node ./devBuil/server.js"
+    "start": "node ./devBuil/server.js"
   },
   "repository": {
     "type": "git",

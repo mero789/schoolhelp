@@ -2,18 +2,31 @@ const express = require("express");
 const app = express();
 const server = require("http").Server(app);
 const sql = require("mysql");
+const nodemailer = require('nodemailer');
 const boards = [
   "hwdsb",
   "hwcdsb",
   "ndsb",
   "ncdsb"
-]
+];
+const serverEmail = "cramoverflow@gmail.com",
+  servermailPass = "Pricey_31";
+
+//initilization code
 
 const conn = sql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
   database: "schoolHelp"
+});
+
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: "cramoverflow@gmail.com",
+    pass: "Pricey_31"
+  }
 });
 
 app.use(express.static(__dirname + "/client", {
@@ -45,6 +58,24 @@ function initUser(username, email) {
   + conn.escape(pfp) + "," + conn.escape(desc) + ", " + conn.escape(board) + ")", function(err, result) {
     if (err) throw err;
     console.log("1 record inserted");
+  });
+}
+
+function sendVerifToUser (username, email, vid) {
+  let link = "http://localhost:2000/verify?vid=" + vid;
+  let mailOptions = {
+    from: serverEmail,
+    to: email,
+    subject: 'Verify',
+    text: "Hey stranger, CramOverflow dev here. Just want to confirm that you're not a robot. Please click this link if you just signed up and you're not a robot. Thanks :)" +link
+  };
+
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      console.log(error);
+    } else {
+    console.log('Email sent: ' + info.response);
+    }
   });
 }
 
@@ -111,15 +142,17 @@ app.post("/api/log", function(req, res) {
   } else if(type == 1) {
     let email = req.body.mail,
       psw = req.body.psw,
-      username = req.body.uid;
+      username = req.body.uid,
+      vid = Math.floor(Math.random() * 999999) + 100000;
     console.log(email);
-    conn.query("INSERT INTO users(email, username, password) VALUES(" + conn.escape(email) + ", "
+    conn.query("INSERT INTO users(email, username, password, vid) VALUES(" + conn.escape(email) + ", "
     + conn.escape(username) + ", "
-    + conn.escape(psw) + ")", function(err, result) {
+    + conn.escape(psw) + "," + conn.escape(vid) + ")", function(err, result) {
       if (err) throw err;
       console.log("1 record inserted");
       res.send(username);
       initUser(username, email);
+      sendVerifToUser(username, email, vid);
     });
   }
 });
@@ -176,6 +209,21 @@ app.post("/api/profileget", function(req, res) {
   let name = req.body.id;
   conn.query("SELECT * FROM profiles WHERE username=" + conn.escape(name), function(err, results, fields) {
     res.json(results[0]);
+  })
+})
+
+app.post("/api/verif", function(req, res) {
+  let vid = req.body.vid;
+  console.log(vid);
+  conn.query("SELECT * FROM users WHERE vid=" + conn.escape(vid), function(err, results, fields) {
+    console.log(results);
+    if(typeof results == "undefined") {
+      console.log("So");
+    } else if(results[0].vid == vid) {
+      res.send("Good to go");
+    } else {
+      res.send("Failed");
+    }
   })
 })
 module.exports = server;

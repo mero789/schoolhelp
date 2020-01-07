@@ -37,7 +37,7 @@ function getCookie(cookie) {
   return "";
 }
 
-if(getCookie("username") !== "") {
+if(getCookie("username") !== "" && !window.location.href.includes("verify")) {
   document.getElementsByClassName('nav-profile')[0].innerHTML = "<a href='./editprofile'><i class='far fa-address-card'></i></a>"
 }
 
@@ -48,6 +48,7 @@ if(window.location.href == "http://localhost:2000/") {
     if(getCookie("username") == "") {
       goTo("login");
     } else {
+      console.log(getCookie("username"));
       goTo("ask");
     }
   });
@@ -65,19 +66,28 @@ if(window.location.href == "http://localhost:2000/") {
       });
   });
 } else if(window.location.href == "http://localhost:2000/ask") {
-  console.log("Ask away");
-  document.getElementsByClassName('submit')[0].addEventListener("click", () => {
-    let desc = document.getElementsByTagName('textarea')[0].value,
-    q = document.getElementsByClassName('questionTitle')[0].value,
-    user = getCookie("username");
-    console.log(user);
-    const sendOb = {
-      question: q,
-      desc: desc,
-      user: user
-    };
-    client.sendQuestion(sendOb);
-  });
+  if(getCookie("username") == "") {
+    goTo("login");
+  } else {
+    console.log("Ask away");
+    document.getElementsByClassName('submit')[0].addEventListener("click", () => {
+      let desc = document.getElementsByTagName('textarea')[0].value,
+      q = document.getElementsByClassName('questionTitle')[0].value,
+      user = getCookie("username");
+      console.log(user);
+      const sendOb = {
+        question: q,
+        desc: desc,
+        user: user
+      };
+      client.sendQuestion(sendOb);
+    });
+    console.log(getCookie("username"));
+    document.getElementsByClassName('util')[0].addEventListener("click", () => {
+      document.getElementsByClassName('drawer')[0].style.display = "block";
+    });
+  }
+
 } else if(window.location.href.indexOf("getpage") > -1) {
   console.log("Viewing question");
   ReactDOM.render(
@@ -354,5 +364,19 @@ if(window.location.href == "http://localhost:2000/") {
     let parsedSponse = JSON.parse(res);
     ReactDOM.render(<Profile name={parsedSponse.username} source={parsedSponse.pfp} content={parsedSponse.descrip} board={parsedSponse.board}/>
     , document.getElementsByClassName('profile-content')[0]);
+  }
+} else if(window.location.href.includes("verify")) {
+  let req = new XMLHttpRequest();
+  let url = "/api/verif";
+  req.open("POST", url);
+  req.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+  req.send(JSON.stringify({vid: window.location.href.split("?vid=")[1]}));
+  req.onload = () => {
+    let res = req.response;
+    if(res == "Good to go") {
+      window.location.href = "./";
+    } else {
+      window.location.href = "./login";
+    }
   }
 }

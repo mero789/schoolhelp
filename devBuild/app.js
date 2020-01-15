@@ -47,6 +47,17 @@ conn.connect(function(err) {
   }
 });
 
+function addAnswer(id) {
+  let anum = 0;
+  conn.query("SELECT * FROM posts WHERE id=" + conn.escape(id), function(err, result, fields) {
+    anum = results[0].answer;
+  });
+  conn.query("UPDATE posts SET answer=" + conn.escape(anum) + " WHERE id=" + conn.escape(id), function (err, result) {
+    if (err) throw err;
+    console.log(result.affectedRows + " record(s) updated");
+  });
+}
+
 function initUser(username, email) {
   let pfp = "profileplaceholder_" + (Math.floor(Math.random() * 7) + 1),
     desc = "This user likes to keep a sense of mystery in the air ...",
@@ -193,6 +204,7 @@ app.post("/api/answer", function(req, res) {
       function(err, result) {
         if (err) throw err;
         console.log("1 record inserted");
+        addAnswer(id);
       });
     }
 });
@@ -226,4 +238,5 @@ app.post("/api/verif", function(req, res) {
     }
   })
 })
+
 module.exports = server;

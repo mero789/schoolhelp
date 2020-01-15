@@ -90,11 +90,6 @@ export class Page extends React.Component {
               <div className="q-description">
               {res.description}
               </div>
-              <div className="q-footer">
-                <div className="item">
-                <a href={reportHref}><i className="fas fa-flag"></i></a>
-                </div>
-              </div>
             </div>
           );
           console.log(res.upvotes - res.downvotes);

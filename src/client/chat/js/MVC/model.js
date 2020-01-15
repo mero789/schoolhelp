@@ -15,7 +15,7 @@ const generalParse = {
   eneralgay: "general",
 
 }
-const letters = /^[A-Za-z0-9]+$/;
+const letters = /^[A-Za-z0-9\s]+$/;
 
 function getCookie(cookie) {
   var name = cookie + "=";
@@ -51,7 +51,6 @@ let clearScreen = () => {
 let init = () => {
   let name = getCookie("username");
   console.log(name);
-  //url = window.location.href.split("#")[1];
   if(name.match(letters)) {
     socket.emit("init", name);
   } else {
